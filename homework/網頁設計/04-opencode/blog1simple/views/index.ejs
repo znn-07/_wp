@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Blog</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <h1><a href="/">Simple Blog</a></h1>
+    <nav>
+      <a href="/post/new" class="btn">New Post</a>
+    </nav>
+  </header>
+  <main>
+    <% if (posts.length === 0) { %>
+      <p class="empty">No posts yet. <a href="/post/new">Create one!</a></p>
+    <% } else { %>
+      <% posts.forEach(post => { %>
+        <article class="post-card">
+          <h2><a href="/post/<%= post.id %>"><%= post.title %></a></h2>
+          <p class="date"><%= new Date(post.created_at).toLocaleDateString('zh-TW') %></p>
+          <p class="preview"><%= post.content.substring(0, 100) %>...</p>
+          <a href="/post/<%= post.id %>" class="read-more">Read more</a>
+        </article>
+      <% }) %>
+    <% } %>
+  </main>
+</body>
+</html>

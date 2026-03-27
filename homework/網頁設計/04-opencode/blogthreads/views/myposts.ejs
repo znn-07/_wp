@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Posts - threads</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">threads</div>
+    <nav class="header-nav">
+      <form action="/logout" method="POST" style="display: inline;">
+        <button type="submit" class="btn btn-secondary">Logout</button>
+      </form>
+    </nav>
+  </header>
+
+  <div class="main-container">
+    <aside class="sidebar">
+      <div class="user-card">
+        <div class="avatar"><%= currentUser.username.charAt(0).toUpperCase() %></div>
+        <div class="user-info">
+          <div class="user-name"><%= currentUser.username %></div>
+          <div class="user-handle">@<%= currentUser.username.toLowerCase().replace(/\s+/g, '') %></div>
+        </div>
+        <div class="user-stats">
+          <div class="stat">
+            <div class="stat-value"><%= stats.myPostsCount %></div>
+            <div class="stat-label">My Posts</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value"><%= stats.allPostsCount %></div>
+            <div class="stat-label">All Posts</div>
+          </div>
+        </div>
+        <a href="/post/new" class="btn btn-primary new-post-btn">New Post</a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/public" class="nav-link <%= currentPage === 'public' ? 'active' : '' %>">
+          <span class="nav-icon">&#9679;</span> Public
+        </a>
+        <a href="/my-posts" class="nav-link <%= currentPage === 'my-posts' ? 'active' : '' %>">
+          <span class="nav-icon">&#9679;</span> My Posts
+        </a>
+      </nav>
+    </aside>
+
+    <main class="content-area full-width">
+      <h2 class="section-title">My Posts</h2>
+      <% if (posts.length === 0) { %>
+        <div class="empty-state">
+          <h3>No posts yet</h3>
+          <p>Share your thoughts with the world!</p>
+          <a href="/post/new" class="btn btn-primary" style="margin-top: 16px;">Create First Post</a>
+        </div>
+      <% } else { %>
+        <% posts.forEach(post => { %>
+          <article class="post-card">
+            <div class="post-header">
+              <div class="post-avatar"><%= currentUser.username.charAt(0).toUpperCase() %></div>
+              <div>
+                <div class="post-author"><%= currentUser.username %></div>
+                <div class="post-time"><%= new Date(post.created_at).toLocaleDateString('zh-TW') %></div>
+              </div>
+            </div>
+            <h3 class="post-title"><%= post.title %></h3>
+            <p class="post-content"><%= post.content.substring(0, 300) %><% if (post.content.length > 300) { %>...<% } %></p>
+            <div class="post-actions">
+              <button class="post-action like-btn" onclick="toggleLike(this)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="heart-icon">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+                <span class="like-count">0</span>
+              </button>
+              <a href="/post/<%= post.id %>" class="post-action">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span><%= post.comment_count || 0 %></span>
+              </a>
+              <button class="post-action" onclick="sharePost('<%= post.id %>')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"></path>
+                </svg>
+              </button>
+              <form action="/post/<%= post.id %>/delete" method="POST" style="display: inline;">
+                <button type="submit" class="post-action btn-danger" onclick="return confirm('Delete?')">Delete</button>
+              </form>
+            </div>
+          </article>
+        <% }) %>
+      <% } %>
+    </main>
+  </div>
+  <script src="/js/app.js"></script>
+</body>
+</html>

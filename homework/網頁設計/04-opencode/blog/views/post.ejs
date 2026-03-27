@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= post.title %> - Threads</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">threads</div>
+    <nav class="header-nav">
+      <a href="<%= currentUser ? '/my-posts' : '/public' %>" class="btn btn-ghost">Back</a>
+      <% if (currentUser) { %>
+        <a href="/post/new" class="btn btn-secondary">New Post</a>
+        <form action="/logout" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-secondary">Logout</button>
+        </form>
+      <% } else { %>
+        <a href="/login" class="btn btn-primary">Login</a>
+      <% } %>
+    </nav>
+  </header>
+
+  <div class="post-full-page">
+    <a href="<%= currentUser ? '/my-posts' : '/public' %>" class="back-link">&larr; Back</a>
+    
+    <article class="post-full">
+      <div class="post-header">
+        <div class="post-avatar"><%= post.author.charAt(0).toUpperCase() %></div>
+        <div>
+          <div class="post-author"><%= post.author %></div>
+          <div class="post-time"><%= new Date(post.created_at).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' }) %></div>
+        </div>
+      </div>
+      <h2 class="post-title"><%= post.title %></h2>
+      <p class="post-content"><%= post.content %></p>
+      <% if (currentUser && currentUser.id === post.author_id) { %>
+        <div class="post-actions">
+          <form action="/post/<%= post.id %>/delete" method="POST" style="display: inline;">
+            <button type="submit" class="post-action btn-danger" onclick="return confirm('Delete this post?')">Delete</button>
+          </form>
+        </div>
+      <% } %>
+    </article>
+
+    <section class="comments-section">
+      <h3 class="comments-title">Comments (<%= comments.length %>)</h3>
+      
+      <% if (currentUser) { %>
+        <form action="/post/<%= post.id %>/comment" method="POST" class="comment-form">
+          <div class="comment-input-wrapper">
+            <div class="comment-avatar"><%= currentUser.username.charAt(0).toUpperCase() %></div>
+            <textarea name="content" placeholder="Write a comment..." rows="2" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+      <% } else { %>
+        <p class="comment-login-prompt"><a href="/login">Login</a> to leave a comment</p>
+      <% } %>
+
+      <div class="comments-list">
+        <% if (comments.length === 0) { %>
+          <p class="no-comments">No comments yet. Be the first to comment!</p>
+        <% } else { %>
+          <% comments.forEach(comment => { %>
+            <div class="comment-item">
+              <div class="comment-avatar-small"><%= comment.author.charAt(0).toUpperCase() %></div>
+              <div class="comment-body">
+                <div class="comment-header">
+                  <span class="comment-author"><%= comment.author %></span>
+                  <span class="comment-time"><%= new Date(comment.created_at).toLocaleDateString('zh-TW') %></span>
+                </div>
+                <p class="comment-content"><%= comment.content %></p>
+              </div>
+            </div>
+          <% }) %>
+        <% } %>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

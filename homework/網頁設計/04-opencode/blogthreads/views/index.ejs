@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Threads</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">threads</div>
+    <nav class="header-nav">
+      <% if (currentUser) { %>
+        <form action="/logout" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-secondary">Logout</button>
+        </form>
+      <% } else { %>
+        <a href="/login" class="btn btn-ghost">Login</a>
+        <a href="/register" class="btn btn-primary">Register</a>
+      <% } %>
+    </nav>
+  </header>
+
+  <div class="main-container">
+    <aside class="sidebar">
+      <% if (currentUser) { %>
+        <div class="user-card">
+          <div class="avatar"><%= currentUser.username.charAt(0).toUpperCase() %></div>
+          <div class="user-info">
+            <div class="user-name"><%= currentUser.username %></div>
+            <div class="user-handle">@<%= currentUser.username.toLowerCase().replace(/\s+/g, '') %></div>
+          </div>
+          <div class="user-stats">
+            <div class="stat">
+              <div class="stat-value"><%= userPosts.length %></div>
+              <div class="stat-label">My Posts</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value"><%= publicPosts.length %></div>
+              <div class="stat-label">All Posts</div>
+            </div>
+          </div>
+          <a href="/post/new" class="btn btn-primary new-post-btn">New Post</a>
+        </div>
+      <% } else { %>
+        <div class="user-card">
+          <div class="avatar">?</div>
+          <div class="user-name">Guest</div>
+          <div class="user-handle">Welcome to threads</div>
+          <div class="user-stats">
+            <div class="stat">
+              <div class="stat-value"><%= publicPosts.length %></div>
+              <div class="stat-label">Total Posts</div>
+            </div>
+          </div>
+          <a href="/login" class="btn btn-primary new-post-btn">Login to Post</a>
+        </div>
+      <% } %>
+    </aside>
+
+    <main class="content-area">
+      <% if (currentUser && userPosts.length > 0) { %>
+        <h2 class="section-title">My Posts</h2>
+        <% userPosts.forEach(post => { %>
+          <article class="post-card">
+            <div class="post-header">
+              <div class="post-avatar"><%= currentUser.username.charAt(0).toUpperCase() %></div>
+              <div>
+                <div class="post-author"><%= currentUser.username %></div>
+                <div class="post-time"><%= new Date(post.created_at).toLocaleDateString('zh-TW') %></div>
+              </div>
+            </div>
+            <h3 class="post-title"><%= post.title %></h3>
+            <p class="post-content"><%= post.content.substring(0, 200) %><% if (post.content.length > 200) { %>...<% } %></p>
+            <div class="post-actions">
+              <a href="/post/<%= post.id %>" class="post-action">Read more</a>
+              <form action="/post/<%= post.id %>/delete" method="POST" style="display: inline;">
+                <button type="submit" class="post-action btn-danger" onclick="return confirm('Delete?')">Delete</button>
+              </form>
+            </div>
+          </article>
+        <% }) %>
+        <div class="section-divider"></div>
+      <% } %>
+
+      <h2 class="section-title">Public Posts</h2>
+      <% if (publicPosts.length === 0) { %>
+        <div class="empty-state">
+          <h3>No posts yet</h3>
+          <p><% if (currentUser) { %>Be the first to post!<% } else { %>Login to create a post!<% } %></p>
+        </div>
+      <% } else { %>
+        <% publicPosts.forEach(post => { %>
+          <article class="post-card">
+            <div class="post-header">
+              <div class="post-avatar"><%= post.author.charAt(0).toUpperCase() %></div>
+              <div>
+                <div class="post-author"><%= post.author %></div>
+                <div class="post-time"><%= new Date(post.created_at).toLocaleDateString('zh-TW') %></div>
+              </div>
+            </div>
+            <h3 class="post-title"><%= post.title %></h3>
+            <p class="post-content"><%= post.content.substring(0, 200) %><% if (post.content.length > 200) { %>...<% } %></p>
+            <div class="post-actions">
+              <a href="/post/<%= post.id %>" class="post-action">Read more</a>
+            </div>
+          </article>
+        <% }) %>
+      <% } %>
+    </main>
+  </div>
+</body>
+</html>
