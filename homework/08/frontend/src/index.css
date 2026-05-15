@@ -1,0 +1,152 @@
+:root {
+  --bg-color: #0d1117;
+  --primary-color: #3fb950; /* 經典科技綠 */
+  --text-color: #c9d1d9;
+  --border-color: #30363d;
+  --card-bg: #161b22;
+}
+
+body {:root {
+  --bg-color: #0d1117;
+  --primary-color: #3fb950;
+  --text-color: #c9d1d9;
+}
+
+body {
+  background-color: var(--bg-color) !important; /* 強制變黑 */
+  color: var(--text-color);
+  font-family: 'Courier New', monospace;
+  margin: 0;
+}
+
+.app-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1 {
+  text-align: center;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 1rem;
+}
+
+.news-card {
+  border: 1px solid #30363d;
+  background: #161b22;
+  margin-bottom: 2rem;
+}
+
+.card-img {
+  width: 100%;
+  filter: grayscale(100%);
+}
+
+.news-card:hover .card-img {
+  filter: grayscale(0%);
+}
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Courier New', monospace;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1 {
+  text-align: center;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 1rem;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+}
+
+.search-box {
+  display: flex;
+  margin: 20px 0;
+  gap: 10px;
+}
+
+input {
+  flex: 1;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--primary-color);
+  padding: 12px;
+  font-family: inherit;
+  outline: none;
+}
+
+button {
+  background: var(--primary-color);
+  color: #000;
+  border: none;
+  padding: 0 25px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.news-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  margin-bottom: 2rem;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.news-card:hover {
+  border-color: var(--primary-color);
+}
+
+.card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  filter: grayscale(100%); /* 預設黑白圖片 */
+  transition: 0.4s;
+}
+
+.news-card:hover .card-img {
+  filter: grayscale(0%); /* 滑鼠移入變彩色 */
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.source {
+  color: var(--primary-color);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+h2 {
+  margin: 10px 0;
+  font-size: 1.25rem;
+}
+
+.content-preview {
+  font-size: 0.9rem;
+  color: #8b949e;
+  line-height: 1.6;
+}
+
+a {
+  display: inline-block;
+  margin-top: 15px;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.loading {
+  text-align: center;
+  color: var(--primary-color);
+}
