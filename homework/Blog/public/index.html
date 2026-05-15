@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en-US"> 
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>EnglishNews</title>
+    <style> 
+        :root {
+            --primary-color: #000000; /* 主色調 */
+            --bg-color: #c4dbde; /* 背景 */
+            --text-main: #000000; /* 文字 */
+            --text-muted: #484e58; /* 次要文字 */
+            --card-bg: #ffffff; /* 卡片背景 */
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* 卡片陰影 */
+        }
+
+        body { 
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;  /* 使用中文優化字體 */
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        /* 限制內容寬度 */
+        .container { 
+            max-width: 900px; 
+            margin: auto; 
+        }
+
+        /* 標題設計 */
+        h1 { 
+            font-family: 'Oswald', sans-serif;
+            text-align: center; 
+            font-size: 3.5rem; /* 增加標題大小讓它更突出 */
+            margin-bottom: 30px;
+            letter-spacing: 3px; /* 調整字距讓標題更緊湊 */
+            color: var(--primary-color);
+            text-transform: uppercase; /* 建議大寫會更有新聞感 */
+        }
+
+        /* 搜尋區塊設計 */
+        .search-container {
+            display: flex; /* 水平排列輸入框和按鈕 */
+            gap: 10px;
+            margin-bottom: 40px;
+            background: var(--card-bg);
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: var(--shadow); /* 添加陰影讓搜尋區塊更突出 */
+        }
+
+        #searchInput {
+            flex-grow: 1;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        /* 點擊搜尋輸入框設計 */
+        #searchInput:focus {
+            border-color: var(--primary-color);
+        }
+
+        #searchBtn {
+            padding: 12px 24px; /* 增加按鈕內邊距讓按鈕更大更易點擊 */
+            background-color: var(--primary-color);
+            color: white;
+            border: none; /* 移除默認邊框 */
+            border-radius: 8px; /* 圓角按鈕 */
+            cursor: pointer; /* 鼠標變成手型 */
+            font-size: 1.1rem; /* 增加這個，放大鏡圖示會變大 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #searchBtn:hover {
+            opacity: 0.9;
+        }
+
+        /* 新聞卡片優化 */
+        .news-card { 
+            background: var(--card-bg); 
+            padding: 24px; 
+            margin-bottom: 24px; 
+            border-radius: 16px; 
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s; /* 添加過渡效果讓卡片在互動時更流暢 */
+            display: grid; /* 使用 CSS Grid 來排列圖片和文字內容 */
+            grid-template-columns: 200px 1fr; /* 左圖右文 */
+            gap: 20px;
+        }
+        
+        /* 鼠標懸停時的互動效果 */
+        .news-card:hover { 
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-card img { 
+            width: 100%;
+            height: 150px;
+            object-fit: cover; /* 確保圖片不變形且填滿 */
+            border-radius: 8px; 
+        }
+
+        .news-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-content a {
+        text-decoration: none; /* 去掉底線 */
+        color: #6dc6d0; 
+        font-weight: bold; /* 加粗 */
+        font-size: 0.9rem; /* 調整大小 */
+        display: inline-block;
+        margin-top: 10px;
+        }
+
+        .news-content a:hover {
+            color: #068e9b; /* 滑鼠移上去變深藍色 */
+            text-decoration: underline; /* 滑鼠移上去再顯示底線 */
+        }
+
+        .news-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.25rem;
+        }
+
+        .news-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        /*.news-card a { 
+            text-decoration: none; 
+            color: var(--primary-color); 
+            font-weight: bold; 
+            font-size: 0.9rem;
+            align-self: flex-start;
+        }*/
+
+        .news-meta {
+            margin-top: auto;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-align: right;
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+        }
+
+        .news-meta .meta-icon {
+            font-size: 1rem; /* 調整圖標大小以與文字對齊 */
+            line-height: 1;
+        }
+
+        /* 定位叉叉按鈕 */
+        #clearBtn {
+            position: absolute;
+            right: 15px; /* 距離右邊界 15px */
+            color: #a9b3be;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 10;
+            transition: color 0.2s;
+        }
+
+        #clearBtn:hover {
+            color: #353e4c; /* 懸停時顏色加深 */
+        }
+
+        /* 重要：給輸入框右側留白，避免文字擋住叉叉 */
+        #searchInput {
+            padding-right: 45px !important; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>#EnglishNews <span style="font-weight: 300;">Explore</span></h1>
+        
+        <div class="search-container">
+            <div style="position: relative; flex-grow: 1; display: flex; align-items: center;">
+                <input type="text" id="searchInput" placeholder="Search The Global Dynamics...">
+                <i class="fas fa-times" id="clearBtn" style="display: none;"></i>
+            </div>
+            <button id="searchBtn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
+        <div id="newsContainer">
+            <!-- 這裡示範一封卡片外觀 -->
+            <div class="news-card">
+                <img src="https://via.placeholder.com/200x150" alt="News Image">
+                <div class="news-content">
+                    <h3>這是新聞標題範例</h3>
+                    <p>這裡會顯示新聞的簡短摘要，幫助使用者快速了解內容重點...</p>
+                    <a href="#">Read More →</a>
+                    <div class="news-meta"> ↪︎ Published at: 2026-05-14</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
