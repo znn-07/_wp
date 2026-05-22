@@ -4,8 +4,15 @@ const path = require('path'); // 用來處理檔案路徑，確保在不同作�
 
 const app = express(); // 建立 Express 應用程式
 const PORT = 3000; // 定義伺服器監聽的埠號
-//  NewsAPI API 金鑰
-const API_KEY = 'a761338145ad49d4a931ded60eacb652'; 
+
+// server.js
+require('dotenv').config();
+
+// 透過 process.env 讀取
+const apiKey = process.env.API_KEY;
+
+// 之後在程式碼中就用 apiKey 這個變數替代原本明文的字串
+console.log(`你的 API Key 是: ${apiKey}`);
 
 app.use(express.static('public')); // 設定 Express 服務靜態檔案，讓前端可以直接訪問 public 資料夾中的檔案
 
@@ -16,7 +23,7 @@ app.get('/api/news', async (req, res) => {
     try {
         let params = {
             language: 'en',
-            apiKey: API_KEY
+            apiKey: apiKey
         };
 
         let url = '';

@@ -15,15 +15,18 @@
 ## 📁 專案資料夾結構
 
 ```text
-blog/
+Blog/
+├── node_modules/
 ├── public/
-│   └── index.html    # 前端介面與渲染邏輯
-├── node_modules/     # 套件存放區 (由 npm 自動產生)
-├── .gitignore        # 設定排除追蹤的檔案 (如 node_modules)
-├── package.json      # 專案依賴與腳本定義
-├── package-lock.json # 確保套件版本一致性
-├── server.js         # Node.js 後端主程式 (API 代理與靜態服務)
-└── README.md         # 本說明文件
+│   ├── favicon.png
+│   ├── index.html
+│   └── script.js
+├── .env                
+├── .gitignore          
+├── package-lock.json
+├── package.json
+├── README.md
+└── server.js
 ```
 ## 📝 實作過程與步驟紀錄
 
@@ -68,6 +71,19 @@ blog/
 node server.js
 ```
 3. 打開瀏覽器訪問：http://localhost:3000
+
+## 🔐 安全規範與環境變數設定
+
+為了確保資安防護，本專案**嚴禁將任何明文的 API Key、密碼或私鑰直接寫在程式碼中並推送到 Git 儲存庫**。我們統一使用環境變數（Environment Variables）來管理敏感資料。
+
+ 1. 本地環境變數設定 (`.env`)
+在專案的根目錄（`Blog/`）下，已透過 `.gitignore` 排除環境設定檔。請在本地專案根目錄下自行建立一個 **`.env`** 檔案，並依據以下格式填入您的金鑰：
+
+```env
+# .env 檔案內容
+API_KEY=your_actual_api_key_here
+PORT=3000
+```
 
 ## 🌐 伺服器運行生命週期 (Runtime Lifecycle)
 
