@@ -55,8 +55,8 @@ clearBtn.addEventListener('click', () => {
 
 // 將資料渲染成 HTML 卡片
 function displayNews(articles) {
-    if (!Array.isArray(articles) || articles.length === 0) {
-        newsContainer.innerHTML = '<p>找不到相關新聞。</p>';
+    if (!Array.isArray(articles) || articles.length === 0) { 
+        newsContainer.innerHTML = '<p>找不到相關新聞。</p>'; 
         return;
     }
     // 使用 map 迭代每篇文章，生成對應的 HTML 結構，最後用 join() 連接成一個完整的字串
