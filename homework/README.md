@@ -4,7 +4,7 @@
 
 >  README 與 `index.html` 是由 [opencode](https://opencode.ai)（AI 程式碼助手）協作整理產出。
 
-**入口首頁**：`index.html` — 一個具有搜尋、過濾、卡片式 UI 的單頁應用，可直接瀏覽所有作業。
+**入口首頁**：`index.html` — 整合 8 項作業的單頁應用，具備搜尋過濾、卡片式 UI，以及內建程式碼檢視器（支援語法高亮、可拖曳分割原始碼 / 預覽雙面板，HTML 檔案可直接即時預覽）。
 
 ---
 
@@ -18,8 +18,6 @@
 | [`04/`](#04--javascript-習題集-10-題) | JavaScript 習題集（10 題） | JavaScript | ✅ 已完成 |
 | [`06/`](#06--javascript-進階習題) | JavaScript 進階習題 | JavaScript | ✅ 已完成 |
 | [`07/`](#07--javascript-實踐習題) | JavaScript 實踐習題 | JavaScript | ✅ 已完成 |
-| [`08/`](#08--全棧應用前後端整合) | 全棧應用（前後端整合） | Fullstack | ⏳ 進行中 |
-| [`09/`](#09--rust-初體驗) | Rust 初體驗 | Other | ✅ 已完成 |
 | [`網頁設計/`](#網頁設計--專題) | 網頁設計專題 | Fullstack | ✅ 已完成 |
 | [`Blog/`](#blog--新聞聚合平台) | 新聞聚合平台（Node.js） | Fullstack | ✅ 已完成 |
 
@@ -116,52 +114,6 @@ JavaScript 基本語法練習。
 
 ---
 
-## 08 — 全棧應用（前後端整合）
-
-**路徑**：`08/`
-
-前後端整合專案，採用 React 前端 + Node.js 後端架構。
-
-```
-08/
-├── backend/
-│   ├── frontend/          # （空，準備中）
-│   ├── models/
-│   │   └── Post.js        # 資料模型
-│   ├── services/
-│   │   └── aggregator.js  # 服務聚合層
-│   ├── utils/
-│   │   └── distiller.js   # 工具函式
-│   └── server.js          # 後端伺服器
-└── frontend/
-    └── src/
-        ├── App.jsx         # React 主元件
-        └── index.css       # 樣式檔
-```
-
-| 檔案 | 說明 |
-|------|------|
-| `backend/server.js` | Express 伺服器 |
-| `backend/models/Post.js` | 資料模型 |
-| `backend/services/aggregator.js` | 資料聚合服務 |
-| `backend/utils/distiller.js` | 工具函式 |
-| `frontend/src/App.jsx` | React 前端元件 |
-| `frontend/src/index.css` | 前端樣式 |
-
----
-
-## 09 — Rust 初體驗
-
-**路徑**：`09/`
-
-Rust 程式語言基礎學習。
-
-| 檔案 | 說明 |
-|------|------|
-| `hello.rs` | Rust 入門程式 |
-
----
-
 ## 網頁設計 — 專題
 
 **路徑**：`網頁設計/`
@@ -238,12 +190,10 @@ node server.js
 |------|------|
 | HTML5 / CSS3 | 網頁結構與樣式 |
 | JavaScript (ES6+) | 前端邏輯與後端(Node.js) |
-| React | 前端框架 (08) |
-| Node.js / Express.js | 後端伺服器 (08, Blog, 網頁設計) |
+| Node.js / Express.js | 後端伺服器 (Blog, 網頁設計) |
 | SQLite | 資料庫 (網頁設計) |
 | EJS | 模板引擎 (網頁設計) |
 | Axios | HTTP 請求 (Blog) |
-| Rust | 系統程式設計入門 (09) |
 
 ## 🚀 快速導覽
 

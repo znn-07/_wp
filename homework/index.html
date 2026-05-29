@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💻 作業統整平台</title>
+    <title>💻 ZN 作業統整平台</title>
     <style>
         * {
             margin: 0;
@@ -489,7 +489,65 @@
         .modal-body strong {
             color: #2c3e50;
         }
-
+            
+        .code-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: #1e1e1e;
+            flex-direction: column;
+        }
+        .code-overlay.active { display: flex; }
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: #252526;
+            border-bottom: 1px solid #3c3c3c;
+            flex-shrink: 0;
+        }
+        .code-filename { color: #ccc; font-size: 0.95em; font-weight: 500; }
+        .code-header-actions { display: flex; align-items: center; gap: 12px; }
+        .code-status { font-size: 0.8em; color: #888; }
+        .code-close {
+            background: none; border: none; color: #888; font-size: 1.4em;
+            cursor: pointer; padding: 2px 8px; border-radius: 4px;
+            transition: all 0.2s; line-height: 1;
+        }
+        .code-close:hover { background: #3c3c3c; color: #fff; }
+        .code-panels { display: flex; flex: 1; overflow: hidden; }
+        .code-panel { display: flex; flex-direction: column; overflow: hidden; }
+        .code-panel-left { width: 60%; border-right: 1px solid #3c3c3c; }
+        .code-panel-right { flex: 1; }
+        .code-divider {
+            width: 12px; cursor: col-resize; flex-shrink: 0;
+            position: relative; z-index: 10;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .code-divider::before {
+            content: ''; display: block;
+            width: 4px; height: 40px; border-radius: 2px;
+            background: #3c3c3c; transition: background 0.15s;
+        }
+        .code-divider:hover::before, .code-divider.dragging::before { background: #007acc; }
+        .code-panel-label {
+            padding: 8px 16px; font-size: 0.78em; color: #888;
+            background: #2d2d2d; border-bottom: 1px solid #3c3c3c;
+            flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .code-content {
+            flex: 1; margin: 0; padding: 16px 20px;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85em; line-height: 1.6; color: #d4d4d4;
+            overflow: auto; white-space: pre; tab-size: 2;
+        }
+        .code-preview { flex: 1; border: none; background: white; }
+        @media (max-width: 768px) {
+            .code-panels { flex-direction: column; }
+            .code-panel-left { border-right: none; border-bottom: 1px solid #3c3c3c; max-height: 50vh; }
+        }
         .footer {
             text-align: center;
             color: #7f8c8d;
@@ -502,22 +560,18 @@
 <body>
     <div class="container">
         <header>
-            <h1>💻 作業統整平台</h1>
-            <p>🎓 完整的課程作業展示與管理系統</p>
+            <h1>💻 ZN 作業統整平台</h1>
+            <p>完整的課程作業展示與管理系統</p>
         </header>
 
         <div class="stats">
             <div class="stat-box">
-                <h3 id="totalCount">11</h3>
+                <h3 id="totalCount">8</h3>
                 <p>總作業數</p>
             </div>
             <div class="stat-box">
-                <h3 id="completedCount">11</h3>
+                <h3 id="completedCount">8</h3>
                 <p>已完成</p>
-            </div>
-            <div class="stat-box">
-                <h3 id="categoryCount">8</h3>
-                <p>課程分類</p>
             </div>
         </div>
 
@@ -553,6 +607,26 @@
             </div>
         </div>
 
+        <div class="code-overlay" id="codeOverlay">
+            <div class="code-header">
+                <span class="code-filename" id="codeFilename">aboutme.html</span>
+                <div class="code-header-actions">
+                    <span class="code-status" id="codeStatus"></span>
+                    <button class="code-close" onclick="closeCodeViewer()">✕</button>
+                </div>
+            </div>
+            <div class="code-panels">
+                <div class="code-panel code-panel-left" id="codePanelLeft">
+                    <div class="code-panel-label">📄 原始碼</div>
+                    <pre class="code-content" id="codeContent"><code></code></pre>
+                </div>
+                <div class="code-divider" id="codeDivider"></div>
+                <div class="code-panel code-panel-right" id="previewPanel">
+                    <div class="code-panel-label">🌐 預覽</div>
+                    <iframe class="code-preview" id="codePreview" sandbox="allow-scripts allow-same-origin"></iframe>
+                </div>
+            </div>
+        </div>
         <div class="footer">
             <p>📚 所有作業統整於此平台 | 最後更新 : 2026年5月29日</p>
         </div>
@@ -567,7 +641,8 @@
                 description: "個人簡介網頁，展示HTML基礎知識",
                 tech: ["HTML5"],
                 files: ["aboutme.html"],
-                path: "./01/",
+                path: "./01/aboutme.html",
+                codeFile: "./01/aboutme.html",
                 status: "completed"
             },
             {
@@ -577,7 +652,8 @@
                 description: "HTML標籤和結構學習",
                 tech: ["HTML5"],
                 files: ["html"],
-                path: "./02/",
+                path: "./02/html",
+                codeFile: "./02/html",
                 status: "completed"
             },
             {
@@ -588,6 +664,7 @@
                 tech: ["JavaScript"],
                 files: ["hello.js", "README.md"],
                 path: "./03/",
+                codeFile: "./03/hello.js",
                 status: "completed"
             },
             {
@@ -626,27 +703,7 @@
             },
             {
                 id: 7,
-                title: "08 - 全棧應用",
-                category: "fullstack",
-                description: "前後端整合項目，包含Backend與Frontend",
-                tech: ["Node.js", "JavaScript", "HTML", "CSS"],
-                files: ["backend/", "frontend/"],
-                path: "./08/",
-                status: "in-progress"
-            },
-            {
-                id: 8,
-                title: "09 - Rust初體驗",
-                category: "other",
-                description: "Rust語言基礎學習",
-                tech: ["Rust"],
-                files: ["hello.rs"],
-                path: "./09/",
-                status: "completed"
-            },
-            {
-                id: 9,
-                title: "網頁設計 - 專題",
+                title: "05 - 網頁設計 - 專題",
                 category: "fullstack",
                 description: "完整的網頁設計專題實踐",
                 tech: ["HTML5", "CSS3", "JavaScript"],
@@ -655,7 +712,7 @@
                 status: "completed"
             },
             {
-                id: 10,
+                id: 8,
                 title: "Blog - 新聞聚合平台",
                 category: "fullstack",
                 description: "基於Node.js的英文新聞聚合平台，串接NewsAPI",
@@ -723,7 +780,10 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="${hw.path}" class="btn btn-primary">📂 檢視程式碼</a>
+                        ${hw.codeFile
+                            ? `<button class="btn btn-primary code-btn" data-file="${hw.codeFile}" data-title="${hw.title}">📂 檢視程式碼</button>`
+                            : `<a href="${hw.path}" class="btn btn-primary">📂 檢視程式碼</a>`
+                        }
                         ${hw.hasReadme ? `<button class="btn btn-secondary readme-btn" data-path="${hw.path}">📖 README</button>` : ''}
                     </div>
                 `;
@@ -813,6 +873,131 @@
                 .replace(/\n\n/g, '</p><p>')
                 .replace(/\n/g, '<br>');
         }
+
+        // 程式碼檢視器
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.code-btn');
+            if (btn) openCodeViewer(btn.dataset.file, btn.dataset.title);
+        });
+
+        function highlightCode(code, lang) {
+            const escape = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            let html = escape(code);
+
+            if (lang === 'html') {
+                html = html
+                    .replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span style="color:#6a9955">$1</span>')
+                    .replace(/(&lt;\/?)([\w-]+)/g, '$1<span style="color:#569cd6">$2</span>')
+                    .replace(/(\b(class|id|src|href|style|rel|type|name|action|method|target|alt|width|height)\s*=\s*)(&quot;|&#39;|&quot;)/gi, (m, attr, q) => {
+                        return attr.replace(/=/, '=<span style="color:#9cdcfe">') + q;
+                    })
+                    .replace(/(&quot;[^&]*&quot;|&#39;[^&#]*&#39;)/g, '<span style="color:#ce9178">$1</span>');
+            } else if (lang === 'js') {
+                const keywords = /\b(async|await|break|case|catch|const|continue|default|delete|do|else|export|extends|false|finally|for|function|if|import|in|instanceof|let|new|null|of|return|static|switch|this|throw|true|try|typeof|var|void|while|with|yield)\b/g;
+                html = html
+                    .replace(/(\/\/.*)/g, '<span style="color:#6a9955">$1</span>')
+                    .replace(/(\/\*[\s\S]*?\*\/)/g, '<span style="color:#6a9955">$1</span>')
+                    .replace(keywords, '<span style="color:#569cd6">$1</span>')
+                    .replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)/g, '<span style="color:#ce9178">$1</span>')
+                    .replace(/\b(\d+\.?\d*)\b/g, '<span style="color:#b5cea8">$1</span>')
+                    .replace(/(\/\/.*)/g, (m) => m);
+            }
+
+            return html;
+        }
+
+        function openCodeViewer(file, title) {
+            const overlay = document.getElementById('codeOverlay');
+            const filename = document.getElementById('codeFilename');
+            const content = document.getElementById('codeContent');
+            const preview = document.getElementById('codePreview');
+            const status = document.getElementById('codeStatus');
+            const previewPanel = document.getElementById('previewPanel');
+
+            filename.textContent = file.split('/').pop();
+            content.innerHTML = '';
+            status.textContent = '';
+            preview.src = '';
+            overlay.classList.add('active');
+
+            const isHtml = file.match(/\.html?$/i) || file.match(/\/html$/i);
+            const isJs = file.match(/\.js$/i);
+
+            const divider = document.getElementById('codeDivider');
+            if (!isHtml) {
+                previewPanel.style.display = 'none';
+                divider.style.display = 'none';
+            } else {
+                previewPanel.style.display = 'flex';
+                divider.style.display = '';
+                preview.src = file;
+                status.textContent = '✓ 預覽就緒';
+            }
+
+            fetch(file)
+                .then(res => {
+                    if (!res.ok) throw new Error('無法讀取檔案');
+                    return res.text();
+                })
+                .then(text => {
+                    const lang = isHtml ? 'html' : isJs ? 'js' : '';
+                    content.innerHTML = highlightCode(text, lang);
+                })
+                .catch(() => {
+                    content.innerHTML = '<span style="color:#f44747">// 無法讀取檔案內容</span>';
+                });
+        }
+
+        function closeCodeViewer() {
+            document.getElementById('codeOverlay').classList.remove('active');
+            document.getElementById('codePreview').src = '';
+            document.getElementById('codePanelLeft').style.width = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeCodeViewer();
+        });
+
+        // 分割線拖曳
+        (function() {
+            const divider = document.getElementById('codeDivider');
+            const left = document.getElementById('codePanelLeft');
+            const overlay = document.getElementById('codeOverlay');
+            if (!divider) return;
+
+            let dragging = false;
+
+            function startDrag() {
+                dragging = true;
+                divider.classList.add('dragging');
+                overlay.style.cursor = 'col-resize';
+            }
+
+            function moveDrag(clientX) {
+                if (!dragging) return;
+                const panels = divider.parentElement;
+                const rect = panels.getBoundingClientRect();
+                let pct = ((clientX - rect.left) / rect.width) * 100;
+                pct = Math.max(20, Math.min(80, pct));
+                left.style.width = pct + '%';
+            }
+
+            function endDrag() {
+                if (dragging) {
+                    dragging = false;
+                    divider.classList.remove('dragging');
+                    overlay.style.cursor = '';
+                }
+            }
+
+            divider.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', e => moveDrag(e.clientX));
+            document.addEventListener('mouseup', endDrag);
+
+            divider.addEventListener('touchstart', e => { startDrag(); e.preventDefault(); });
+            document.addEventListener('touchmove', e => moveDrag(e.touches[0].clientX), { passive: true });
+            document.addEventListener('touchend', endDrag);
+        })();
 
         // 初始化
         renderCards(homeworks);
