@@ -1,7 +1,9 @@
 # 💻 作業統整
 
 > 本文件統整了 `_wp/homework` 目錄下所有作業的完整資訊。
+
 > 視覺化入口：`index.html` — 整合 8 項作業的單頁應用，具備搜尋過濾、卡片式 UI、程式碼檢視器。
+
 > README 與 index.html 是由 opencode（AI 程式碼助手）協作整理產出（[對話紀錄](./AI-conversation.md)）。
 
 ---
