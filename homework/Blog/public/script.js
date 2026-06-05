@@ -1,35 +1,40 @@
-const searchBtn = document.getElementById('searchBtn'); // 取得搜尋按鈕和輸入框的 DOM 元素
-const searchInput = document.getElementById('searchInput'); // 取得搜尋按鈕和輸入框的 DOM 元素
-const newsContainer = document.getElementById('newsContainer'); // 取得新聞容器的 DOM 元素
-const clearBtn = document.getElementById('clearBtn'); // 取得清除按鈕的 DOM 元素
+const searchBtn = document.getElementById('searchBtn');
+const searchInput = document.getElementById('searchInput');
+const newsContainer = document.getElementById('newsContainer');
+const clearBtn = document.getElementById('clearBtn');
+const pageNav = document.getElementById('pageNav');
 
-// 點擊按鈕時觸發
+const PAGE_SIZE = 20;
+let currentPage = 1;
+let currentKeyword = '';
+let totalResults = 0;
+
 searchBtn.addEventListener('click', () => {
-    const keyword = searchInput.value.trim(); 
+    const keyword = searchInput.value.trim();
+    currentKeyword = keyword;
+    currentPage = 1;
     fetchNews(keyword);
 });
 
-// 核心功能：向後端請求資料
-async function fetchNews(q = '') {
+async function fetchNews(keyword = '') {
     try {
-        newsContainer.innerHTML = '<p>載入中...</p>';
-        
-        // 呼叫你剛寫好的後端路由，帶入查詢參數
-        const response = await fetch(`/api/news?q=${q}`);
-        const articles = await response.json();
-        // 將資料渲染到頁面上
-        displayNews(articles);
+        newsContainer.innerHTML = '<p style="text-align:center;padding:40px;">載入中...</p>';
+        pageNav.innerHTML = '';
+
+        const response = await fetch(`/api/news?q=${keyword}&page=${currentPage}&pageSize=${PAGE_SIZE}`);
+        const data = await response.json();
+        totalResults = data.totalResults;
+        renderNews(data);
     } catch (error) {
         console.error('抓取失敗:', error);
         newsContainer.innerHTML = '<p>抱歉，暫時無法取得新聞。</p>';
     }
 }
-// 格式化日期顯示
+
 function formatDate(isoString) {
     if (!isoString) return '無刊登日期';
     const date = new Date(isoString);
     if (Number.isNaN(date.getTime())) return '無刊登日期';
-    // 使用台灣地區的日期格式
     return date.toLocaleDateString('zh-TW', {
         year: 'numeric',
         month: '2-digit',
@@ -37,32 +42,27 @@ function formatDate(isoString) {
     });
 }
 
-// 監聽輸入事件：有字就顯示叉叉，沒字就隱藏
 searchInput.addEventListener('input', () => {
-    if (searchInput.value.length > 0) {
-        clearBtn.style.display = 'block';
-    } else {
-        clearBtn.style.display = 'none';
-    }
+    clearBtn.style.display = searchInput.value.length > 0 ? 'block' : 'none';
 });
 
-// 點擊叉叉的動作
 clearBtn.addEventListener('click', () => {
-    searchInput.value = ''; // 清空文字
-    clearBtn.style.display = 'none'; // 隱藏按鈕
-    searchInput.focus(); // 讓游標回到輸入框
+    searchInput.value = '';
+    clearBtn.style.display = 'none';
+    searchInput.focus();
 });
 
-// 將資料渲染成 HTML 卡片
-function displayNews(articles) {
-    if (!Array.isArray(articles) || articles.length === 0) { 
-        newsContainer.innerHTML = '<p>找不到相關新聞。</p>'; 
+function renderNews(data) {
+    const { articles } = data;
+    if (!Array.isArray(articles) || articles.length === 0) {
+        newsContainer.innerHTML = '<p>找不到相關新聞。</p>';
+        pageNav.innerHTML = '';
         return;
     }
-    // 使用 map 迭代每篇文章，生成對應的 HTML 結構，最後用 join() 連接成一個完整的字串
+
     newsContainer.innerHTML = articles.map(art => `
         <div class="news-card">
-            <img src="${art.urlToImage || 'https://via.placeholder.com/150'}" alt="news">
+            <img src="${art.urlToImage || 'https://via.placeholder.com/200x150'}" alt="news">
             <div class="news-content">
                 <h3>${art.title}</h3>
                 <p>${art.description || '點擊閱讀更多內容...'}</p>
@@ -71,9 +71,34 @@ function displayNews(articles) {
             </div>
         </div>
     `).join('');
+
+    renderPageNav();
 }
 
-// 頁面載入時先跑一次預設內容
+function renderPageNav() {
+    const totalPages = Math.ceil(totalResults / PAGE_SIZE);
+    if (totalPages <= 1) {
+        pageNav.innerHTML = '';
+        return;
+    }
+
+    let html = '';
+    for (let i = 1; i <= totalPages; i++) {
+        html += `<span class="page-num ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</span>`;
+    }
+    pageNav.innerHTML = html;
+
+    pageNav.querySelectorAll('.page-num').forEach(el => {
+        el.addEventListener('click', () => {
+            const page = parseInt(el.dataset.page);
+            if (page === currentPage) return;
+            currentPage = page;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            fetchNews(currentKeyword);
+        });
+    });
+}
+
 fetchNews();
 
 searchInput.addEventListener('keypress', (e) => {

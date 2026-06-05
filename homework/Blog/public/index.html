@@ -187,6 +187,41 @@
         #searchInput {
             padding-right: 45px !important; 
         }
+
+        .page-nav {
+            text-align: center;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .page-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 42px;
+            height: 42px;
+            padding: 0 8px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            box-shadow: var(--shadow);
+            transition: background 0.2s, color 0.2s;
+            user-select: none;
+        }
+
+        .page-num:hover {
+            background: #e2e8f0;
+        }
+
+        .page-num.active {
+            background: var(--primary-color);
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -204,18 +239,9 @@
             </button>
         </div>
 
-        <div id="newsContainer">
-            <!-- 這裡示範一封卡片外觀 -->
-            <div class="news-card">
-                <img src="https://via.placeholder.com/200x150" alt="News Image">
-                <div class="news-content">
-                    <h3>這是新聞標題範例</h3>
-                    <p>這裡會顯示新聞的簡短摘要，幫助使用者快速了解內容重點...</p>
-                    <a href="#">Read More →</a>
-                    <div class="news-meta"> ↪︎ Published at: 2026-05-14</div>
-                </div>
-            </div>
-        </div>
+        <div id="newsContainer"></div>
+
+        <div id="pageNav" class="page-nav"></div>
     </div>
 
     <script src="script.js"></script>

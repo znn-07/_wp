@@ -18,29 +18,39 @@ app.use(express.static('public')); // 設定 Express 服務靜態檔案，讓前
 
 app.get('/api/news', async (req, res) => {
     const query = req.query.q;
-    console.log(`收到請求，搜尋關鍵字: ${query || '無(預設科技頭條)'}`);
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = Math.min(parseInt(req.query.pageSize) || 20, 100);
+    console.log(`收到請求，搜尋關鍵字: ${query || '無(預設科技頭條)'}，頁碼: ${page}`);
 
     try {
         let params = {
             language: 'en',
-            apiKey: apiKey
+            apiKey: apiKey,
+            page,
+            pageSize
         };
 
         let url = '';
 
         if (query) {
-            // 搜尋模式
-            url = 'https://newsapi.org/v2/everything'; 
+            url = 'https://newsapi.org/v2/everything';
             params.q = query;
-            params.sortBy = 'publishedAt'; // 增加排序讓結果更準確
+            params.sortBy = 'publishedAt';
+            const fromDate = new Date();
+            fromDate.setDate(fromDate.getDate() - 30);
+            params.from = fromDate.toISOString().split('T')[0];
         } else {
-            // 預設頭條模式
-            url = 'https://newsapi.org/v2/top-headlines'; 
+            url = 'https://newsapi.org/v2/top-headlines';
             params.category = 'technology';
         }
 
         const response = await axios.get(url, { params });
-        res.json(response.data.articles);
+        res.json({
+            articles: response.data.articles,
+            totalResults: response.data.totalResults,
+            page,
+            pageSize
+        });
 
     } catch (error) {
         console.error("❌ 發生錯誤:", error.message);
