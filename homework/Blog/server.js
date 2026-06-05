@@ -15,7 +15,6 @@ const apiKey = process.env.API_KEY;
 console.log(`你的 API Key 是: ${apiKey}`);
 
 app.use(express.static('public')); // 設定 Express 服務靜態檔案，讓前端可以直接訪問 public 資料夾中的檔案
-
 app.get('/api/news', async (req, res) => {
     const query = req.query.q;
     const page = parseInt(req.query.page) || 1;
