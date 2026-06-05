@@ -1,8 +1,11 @@
+# 我與AI對話內容: https://gemini.google.com/share/3ca7351b8292
+
+本專案皆是由AI協作完成的。
+
 # 🚀 EnglishNews 英文新聞快速瀏覽器
 
 這是一個基於 Node.js 打造的輕量級科技新聞聚合平台。透過串接第三方 API，將全球最新的科技產業動態整合在一個簡潔的網頁介面中，方便使用者快速瀏覽。
 
-## 我與AI對話內容: https://gemini.google.com/share/3ca7351b8292
 
 ## 🛠 開發環境與技術棧
 

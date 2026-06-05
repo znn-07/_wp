@@ -4,7 +4,7 @@
 
 > 視覺化入口：`index.html` — 整合 8 項作業的單頁應用，具備搜尋過濾、卡片式 UI、程式碼檢視器。
 
-> README 與 index.html 是由 opencode（AI 程式碼助手）協作整理產出（[對話紀錄](./AI-conversation.md)）。
+> README 與 index.html 皆是由 opencode（AI 程式碼助手）協作整理產出（[對話紀錄](./AI-conversation.md)）。
 
 ---
 
