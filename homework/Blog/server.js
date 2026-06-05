@@ -30,7 +30,7 @@ app.get('/api/news', async (req, res) => {
             pageSize
         };
 
-        let url = '';
+        let url = ''; // 根據是否有搜尋關鍵字來決定使用哪個 API 端點
 
         if (query) {
             url = 'https://newsapi.org/v2/everything';
@@ -40,7 +40,7 @@ app.get('/api/news', async (req, res) => {
             fromDate.setDate(fromDate.getDate() - 30);
             params.from = fromDate.toISOString().split('T')[0];
         } else {
-            url = 'https://newsapi.org/v2/top-headlines';
+            url = 'https://newsapi.org/v2/top-headlines'; 
             params.category = 'technology';
         }
 

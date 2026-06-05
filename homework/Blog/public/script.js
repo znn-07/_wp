@@ -1,14 +1,15 @@
-const searchBtn = document.getElementById('searchBtn');
-const searchInput = document.getElementById('searchInput');
-const newsContainer = document.getElementById('newsContainer');
-const clearBtn = document.getElementById('clearBtn');
-const pageNav = document.getElementById('pageNav');
+const searchBtn = document.getElementById('searchBtn'); // 搜尋按鈕
+const searchInput = document.getElementById('searchInput'); // 搜尋輸入框
+const newsContainer = document.getElementById('newsContainer'); // 新聞列表容器
+const clearBtn = document.getElementById('clearBtn'); // 清除搜尋輸入的按鈕
+const pageNav = document.getElementById('pageNav'); // 分頁導航容器
 
 const PAGE_SIZE = 20;
 let currentPage = 1;
 let currentKeyword = '';
 let totalResults = 0;
 
+ // 這裡的變數用來追蹤目前的搜尋關鍵字、頁碼和總結果數，以便在分頁導航中使用
 searchBtn.addEventListener('click', () => {
     const keyword = searchInput.value.trim();
     currentKeyword = keyword;
@@ -16,6 +17,7 @@ searchBtn.addEventListener('click', () => {
     fetchNews(keyword);
 });
 
+ // 當使用者點擊搜尋按鈕時，會更新 currentKeyword 和 currentPage 這兩個變數，然後呼叫 fetchNews() 函式來抓取新聞資料。這樣在分頁導航中就能根據 currentKeyword 和 currentPage 來正確地顯示對應的新聞內容。
 async function fetchNews(keyword = '') {
     try {
         newsContainer.innerHTML = '<p style="text-align:center;padding:40px;">載入中...</p>';
