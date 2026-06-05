@@ -3,1005 +3,580 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💻 10作業統整平台</title>
+    <title>作業統整平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #333;
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            background-color: #f8fafc;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeInDown 0.6s ease;
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            padding: 40px 20px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(44, 62, 80, 0.25);
-        }
-
-        header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            font-weight: 700;
-            color: white;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-
-        header p {
-            font-size: 1.1em;
-            color: rgba(255,255,255,0.85);
-        }
-
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-
-        .stat-box {
-            background: white;
-            padding: 20px 35px;
-            border-radius: 14px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-            text-align: center;
-            animation: slideUp 0.6s ease;
-            flex: 1;
-            min-width: 160px;
-            max-width: 220px;
-            border-top: 4px solid #34495e;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .stat-box:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-box h3 {
-            color: #2c3e50;
-            font-size: 2.2em;
-            margin-bottom: 5px;
-            font-weight: 700;
-        }
-
-        .stat-box p {
-            color: #7f8c8d;
-            font-size: 0.9em;
-            font-weight: 500;
-        }
-
-        .search-box {
-            margin-bottom: 25px;
-            animation: fadeInUp 0.6s ease;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 16px 20px;
-            font-size: 1em;
-            border: none;
-            border-radius: 12px;
-            background: white;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        .homework-card {
             transition: all 0.3s ease;
         }
-
-        .search-box input:focus {
-            outline: none;
-            box-shadow: 0 4px 20px rgba(52, 73, 94, 0.2);
-        }
-
-        .filter-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .filter-btn {
-            padding: 10px 22px;
-            border: none;
-            background: white;
-            color: #7f8c8d;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 0.95em;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-
-        .filter-btn:hover {
-            background: #34495e;
-            color: white;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(52, 73, 94, 0.25);
-        }
-
-        .filter-btn.active {
-            background: #34495e;
-            color: white;
-            box-shadow: 0 4px 12px rgba(52, 73, 94, 0.3);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
-            margin-bottom: 40px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-            transition: all 0.35s ease;
-            animation: fadeIn 0.6s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card:hover {
+        .homework-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.15);
         }
-
-        .card-header {
-            padding: 20px 22px;
-            background: linear-gradient(135deg, #34495e, #2c3e50);
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .card-title {
-            font-size: 1.3em;
-            font-weight: 600;
-            line-height: 1.3;
-        }
-
-        .card-tag {
-            display: inline-block;
-            font-size: 0.72em;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 4px 10px;
-            border-radius: 20px;
-            white-space: nowrap;
-        }
-
-        .card-body {
-            padding: 20px 22px;
-            flex: 1;
-        }
-
-        .card-description {
-            color: #7f8c8d;
-            margin-bottom: 15px;
-            line-height: 1.6;
-            font-size: 0.95em;
-        }
-
-        .card-files {
-            margin-bottom: 15px;
-        }
-
-        .card-files label {
-            display: block;
-            font-size: 0.85em;
-            color: #95a5a6;
-            margin-bottom: 6px;
+        .filter-btn.active {
+            background-color: #14b8a6;
+            color: #0f172a;
             font-weight: 600;
         }
-
-        .file-list {
-            font-size: 0.82em;
-            background: #f8f9fa;
-            padding: 10px 12px;
-            border-radius: 8px;
-            max-height: 80px;
-            overflow-y: auto;
-            color: #7f8c8d;
-        }
-
-        .file-item {
-            padding: 2px 0;
-        }
-
-        .card-footer {
-            padding: 14px 22px;
-            border-top: 1px solid #eee;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            background: #fafafa;
-        }
-
-        .btn {
-            padding: 9px 18px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85em;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-primary {
-            background: #34495e;
-            color: white;
-            flex: 1;
-            justify-content: center;
-        }
-
-        .btn-primary:hover {
-            background: #2c3e50;
-            transform: scale(1.02);
-        }
-
-        .btn-secondary {
-            background: #ecf0f1;
-            color: #34495e;
-        }
-
-        .btn-secondary:hover {
-            background: #dde1e3;
-            transform: scale(1.02);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            color: #7f8c8d;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-        }
-
-        .empty-state-icon {
-            font-size: 4em;
-            margin-bottom: 20px;
-        }
-
-        .empty-state h2 {
-            margin-bottom: 8px;
-            color: #2c3e50;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.7em;
-            font-weight: 600;
-        }
-
-        .status-completed {
-            background: #4caf50;
-            color: white;
-        }
-
-        .status-pending {
-            background: #ff9800;
-            color: white;
-        }
-
-        .status-in-progress {
-            background: #2196f3;
-            color: white;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @media (max-width: 768px) {
-            header {
-                padding: 30px 16px;
-            }
-
-            header h1 {
-                font-size: 2em;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .stat-box {
-                max-width: none;
-            }
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-        }
-
-        .modal-overlay.active {
-            display: block;
-        }
-
-        .modal {
-            background: white;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            animation: fadeIn 0.2s ease;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 28px;
-            border-bottom: 1px solid #eee;
-            background: #fff;
-            flex-shrink: 0;
-        }
-
-        .modal-header h2 {
-            font-size: 1.15em;
-            color: #2c3e50;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.6em;
-            cursor: pointer;
-            color: #95a5a6;
-            padding: 4px 10px;
-            border-radius: 8px;
-            transition: all 0.2s;
-            line-height: 1;
-        }
-
-        .modal-close:hover {
-            background: #ecf0f1;
-            color: #333;
-        }
-
-        .modal-body {
-            padding: 32px 48px;
-            overflow-y: auto;
-            line-height: 1.8;
-            font-size: 1em;
-            color: #333;
-            flex: 1;
-            max-width: 1100px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .modal-body h1, .modal-body h2, .modal-body h3 {
-            color: #2c3e50;
-            margin-top: 1.2em;
-            margin-bottom: 0.5em;
-        }
-
-        .modal-body h1 { font-size: 1.5em; }
-        .modal-body h2 { font-size: 1.3em; }
-        .modal-body h3 { font-size: 1.1em; }
-
-        .modal-body p {
-            margin-bottom: 0.8em;
-        }
-
-        .modal-body pre {
-            background: #f5f7fa;
-            padding: 14px 16px;
-            border-radius: 8px;
+        .code-block {
+            background-color: #1e293b;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.8rem;
             overflow-x: auto;
-            font-size: 0.88em;
-            margin: 0.8em 0;
-            border: 1px solid #e8ecf0;
+            white-space: pre-wrap;
+            word-break: break-all;
         }
-
-        .modal-body code {
-            background: #f0f2f5;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.9em;
-        }
-
-        .modal-body pre code {
-            background: none;
-            padding: 0;
-        }
-
-        .modal-body ul, .modal-body ol {
-            padding-left: 1.5em;
-            margin-bottom: 0.8em;
-        }
-
-        .modal-body strong {
-            color: #2c3e50;
-        }
-            
-        .code-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 2000;
-            background: #1e1e1e;
-            flex-direction: column;
-        }
-        .code-overlay.active { display: flex; }
-        .code-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 20px;
-            background: #252526;
-            border-bottom: 1px solid #3c3c3c;
-            flex-shrink: 0;
-        }
-        .code-filename { color: #ccc; font-size: 0.95em; font-weight: 500; }
-        .code-header-actions { display: flex; align-items: center; gap: 12px; }
-        .code-status { font-size: 0.8em; color: #888; }
-        .code-close {
-            background: none; border: none; color: #888; font-size: 1.4em;
-            cursor: pointer; padding: 2px 8px; border-radius: 4px;
-            transition: all 0.2s; line-height: 1;
-        }
-        .code-close:hover { background: #3c3c3c; color: #fff; }
-        .code-panels { display: flex; flex: 1; overflow: hidden; }
-        .code-panel { display: flex; flex-direction: column; overflow: hidden; }
-        .code-panel-left { width: 60%; border-right: 1px solid #3c3c3c; }
-        .code-panel-right { flex: 1; }
-        .code-divider {
-            width: 12px; cursor: col-resize; flex-shrink: 0;
-            position: relative; z-index: 10;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .code-divider::before {
-            content: ''; display: block;
-            width: 4px; height: 40px; border-radius: 2px;
-            background: #3c3c3c; transition: background 0.15s;
-        }
-        .code-divider:hover::before, .code-divider.dragging::before { background: #007acc; }
-        .code-panel-label {
-            padding: 8px 16px; font-size: 0.78em; color: #888;
-            background: #2d2d2d; border-bottom: 1px solid #3c3c3c;
-            flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        .code-content {
-            flex: 1; margin: 0; padding: 16px 20px;
-            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-            font-size: 0.85em; line-height: 1.6; color: #d4d4d4;
-            overflow: auto; white-space: pre; tab-size: 2;
-        }
-        .code-preview { flex: 1; border: none; background: white; }
-        @media (max-width: 768px) {
-            .code-panels { flex-direction: column; }
-            .code-panel-left { border-right: none; border-bottom: 1px solid #3c3c3c; max-height: 50vh; }
-        }
-        .footer {
-            text-align: center;
-            color: #7f8c8d;
-            margin-top: 50px;
-            padding: 20px;
-            font-size: 0.9em;
+        @media (max-width: 640px) {
+            .filter-group {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>💻 10作業統整平台</h1>
-            <p>完整的課程作業展示與管理系統</p>
-        </header>
+<body class="text-gray-800">
 
-        <div class="stats">
-            <div class="stat-box">
-                <h3 id="totalCount">8</h3>
-                <p>總作業數</p>
+    <nav class="bg-slate-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-layer-group text-teal-400 text-2xl"></i>
+                <span class="text-xl font-bold tracking-wider">作業統整平台</span>
             </div>
-            <div class="stat-box">
-                <h3 id="completedCount">8</h3>
-                <p>已完成</p>
+            <div class="flex items-center space-x-3">
+                <span class="text-xs text-slate-400 hidden sm:inline">共 8 項作業</span>
+                <a href="https://github.com/znn-07/_wp" target="_blank" class="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg transition-colors duration-200 text-sm border border-slate-700">
+                    <i class="fa-brands fa-github text-lg"></i>
+                    <span class="hidden sm:inline">GitHub</span>
+                </a>
             </div>
         </div>
+    </nav>
 
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 搜尋作業名稱、分類或技術...">
+    <header class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white py-16 px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">
+                <i class="fa-solid fa-code text-teal-400 mr-3"></i>
+                Web 程式設計 <span class="text-teal-400">作業作品集</span>
+            </h1>
+            <p class="text-slate-400 text-lg mb-3">從 HTML / CSS 基礎 → JavaScript 核心 → 全端專題實戰</p>
+            <p class="text-slate-500 text-sm mb-8">國立金門大學 資訊工程學系 ｜ 劉甄娜</p>
+            <div class="flex justify-center space-x-2 filter-group" id="tag-filters">
+                <button onclick="filterTasks('all')" class="filter-btn active bg-teal-500 hover:bg-teal-600 text-slate-950 font-semibold px-4 py-2 rounded-full transition-all text-sm">全部</button>
+                <button onclick="filterTasks('HTML')" class="filter-btn bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-full transition-all text-sm">HTML/CSS</button>
+                <button onclick="filterTasks('JS')" class="filter-btn bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-full transition-all text-sm">JavaScript</button>
+                <button onclick="filterTasks('Fullstack')" class="filter-btn bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-full transition-all text-sm">全端專題</button>
+            </div>
         </div>
+    </header>
 
-        <div class="filter-tabs">
-            <button class="filter-btn active" data-filter="all">全部</button>
-            <button class="filter-btn" data-filter="javascript">JavaScript</button>
-            <button class="filter-btn" data-filter="html">HTML/CSS</button>
-            <button class="filter-btn" data-filter="fullstack">全棧</button>
-            <button class="filter-btn" data-filter="other">其他</button>
-        </div>
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="homework-grid">
 
-        <div class="grid" id="grid">
-            <!-- 動態生成內容 -->
-        </div>
-
-        <div class="empty-state" id="emptyState" style="display: none;">
-            <div class="empty-state-icon">🔍</div>
-            <h2>找不到符合的作業</h2>
-            <p>請嘗試其他搜尋條件</p>
-        </div>
-
-        <div class="modal-overlay" id="modalOverlay">
-            <div class="modal">
-                <div class="modal-header">
-                    <h2 id="modalTitle">📖 README</h2>
-                    <button class="modal-close" onclick="closeReadme()">✕</button>
+            <!-- ====== HW 01 — 關於我 ====== -->
+            <div class="homework-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 flex flex-col" data-tags="HTML">
+                <div class="relative h-40 bg-gradient-to-r from-emerald-400 to-teal-500 flex items-center justify-center">
+                    <i class="fa-solid fa-user text-white text-5xl opacity-30 absolute"></i>
+                    <span class="text-white text-6xl font-black tracking-wider z-10">01</span>
                 </div>
-                <div class="modal-body" id="modalBody"></div>
+                <div class="p-6 flex-grow">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-teal-50 text-teal-700 rounded-full">HW 01</span>
+                        <span class="text-xs text-slate-400">HTML/CSS 基礎</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">關於我 — 個人簡介網頁</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        使用 HTML 基礎結構與 CSS 排版製作的個人簡介頁面，內容包含姓名、學校科系、學號、興趣及聯絡方式。
+                    </p>
+                    <div class="bg-slate-50 rounded-lg p-3 mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">作品預覽</span>
+                            <a href="./01/aboutme.html" target="_blank" class="text-teal-600 hover:text-teal-700 text-xs font-medium">
+                                <i class="fa-solid fa-external-link-alt mr-1"></i>開啟
+                            </a>
+                        </div>
+                        <div class="code-block text-gray-300 text-xs leading-relaxed max-h-24 overflow-y-auto">&lt;header&gt;
+  &lt;h1&gt;劉甄娜&lt;/h1&gt;
+  &lt;p&gt;歡迎來到我的個人網站！&lt;/p&gt;
+&lt;/header&gt;
+&lt;div class="section"&gt;
+  &lt;h2&gt;關於我&lt;/h2&gt;
+  &lt;p&gt;學校:國立金門大學&lt;/p&gt;
+  &lt;p&gt;科系:資訊工程學系&lt;/p&gt;
+  &lt;p&gt;學號:111410520&lt;/p&gt;
+&lt;/div&gt;</div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mb-2">
+                        <span class="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded">HTML5</span>
+                        <span class="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded">CSS3</span>
+                        <span class="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded">響應式設計</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex items-center justify-between">
+                    <span class="text-xs text-slate-400"><i class="fa-regular fa-file-code mr-1"></i> aboutme.html</span>
+                    <a href="https://github.com/znn-07/_wp/tree/master/homework/01" target="_blank" class="text-teal-600 hover:text-teal-700 font-semibold text-sm inline-flex items-center">
+                        原始碼 <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+                    </a>
+                </div>
             </div>
-        </div>
 
-        <div class="code-overlay" id="codeOverlay">
-            <div class="code-header">
-                <span class="code-filename" id="codeFilename">aboutme.html</span>
-                <div class="code-header-actions">
-                    <span class="code-status" id="codeStatus"></span>
-                    <button class="code-close" onclick="closeCodeViewer()">✕</button>
+            <!-- ====== HW 02 — 服務回饋表單 ====== -->
+            <div class="homework-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 flex flex-col" data-tags="HTML">
+                <div class="relative h-40 bg-gradient-to-r from-blue-400 to-indigo-500 flex items-center justify-center">
+                    <i class="fa-solid fa-star text-white text-5xl opacity-30 absolute"></i>
+                    <span class="text-white text-6xl font-black tracking-wider z-10">02</span>
+                </div>
+                <div class="p-6 flex-grow">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-teal-50 text-teal-700 rounded-full">HW 02</span>
+                        <span class="text-xs text-slate-400">HTML/CSS 進階</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Service Feedback 表單</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        純 CSS 實現的五星評分回饋表單，包含聯絡資訊、服務品質評分、未來意願選擇及意見回饋區塊，具備完整的響應式設計。
+                    </p>
+                    <ul class="text-xs text-slate-500 space-y-1 mb-4">
+                        <li><i class="fa-solid fa-check text-teal-500 mr-1.5"></i>純 CSS 星級評分（無 JavaScript）</li>
+                        <li><i class="fa-solid fa-check text-teal-500 mr-1.5"></i>表單驗證（required 屬性）</li>
+                        <li><i class="fa-solid fa-check text-teal-500 mr-1.5"></i>CSS Grid 響應式佈局</li>
+                        <li><i class="fa-solid fa-check text-teal-500 mr-1.5"></i>CSS 變數主題配色</li>
+                    </ul>
+                    <div class="bg-slate-50 rounded-lg p-3 mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">作品預覽</span>
+                            <a href="./02/html" target="_blank" class="text-teal-600 hover:text-teal-700 text-xs font-medium">
+                                <i class="fa-solid fa-external-link-alt mr-1"></i>開啟
+                            </a>
+                        </div>
+                        <div class="code-block text-gray-300 text-xs leading-relaxed max-h-24 overflow-y-auto">&lt;div class="survey-card"&gt;
+  &lt;h2&gt;Service Feedback&lt;/h2&gt;
+  &lt;form action="#" method="POST"&gt;
+    &lt;div class="grid-row"&gt;
+      &lt;div class="form-group"&gt;
+        &lt;label&gt;Full Name *&lt;/label&gt;
+        &lt;input type="text" required&gt;
+      &lt;/div&gt;
+      &lt;div class="form-group"&gt;
+        &lt;label&gt;Phone *&lt;/label&gt;
+        &lt;input type="tel" required&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- 星級評分 + 意願選擇 + 送出按鈕 --&gt;
+  &lt;/form&gt;
+&lt;/div&gt;</div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mb-2">
+                        <span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded">HTML5</span>
+                        <span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded">CSS3</span>
+                        <span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded">CSS Grid</span>
+                        <span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded">表單</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex items-center justify-between">
+                    <span class="text-xs text-slate-400"><i class="fa-regular fa-file-code mr-1"></i> html（289 行）</span>
+                    <a href="https://github.com/znn-07/_wp/tree/master/homework/02" target="_blank" class="text-teal-600 hover:text-teal-700 font-semibold text-sm inline-flex items-center">
+                        原始碼 <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+                    </a>
                 </div>
             </div>
-            <div class="code-panels">
-                <div class="code-panel code-panel-left" id="codePanelLeft">
-                    <div class="code-panel-label">📄 原始碼</div>
-                    <pre class="code-content" id="codeContent"><code></code></pre>
+
+            <!-- ====== HW 03 — JavaScript 入門 ====== -->
+            <div class="homework-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 flex flex-col" data-tags="JS">
+                <div class="relative h-40 bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center">
+                    <i class="fa-brands fa-js text-white text-5xl opacity-30 absolute"></i>
+                    <span class="text-white text-6xl font-black tracking-wider z-10">03</span>
                 </div>
-                <div class="code-divider" id="codeDivider"></div>
-                <div class="code-panel code-panel-right" id="previewPanel">
-                    <div class="code-panel-label">🌐 預覽</div>
-                    <iframe class="code-preview" id="codePreview" sandbox="allow-scripts allow-same-origin"></iframe>
+                <div class="p-6 flex-grow">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-teal-50 text-teal-700 rounded-full">HW 03</span>
+                        <span class="text-xs text-slate-400">JavaScript 入門</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">JavaScript Hello World</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        JavaScript 的第一支程式，使用 <code class="text-teal-600 bg-teal-50 px-1 rounded">console.log()</code> 輸出中英雙語的 Hello World 訊息，作為 Node.js 環境的入門練習。
+                    </p>
+                    <div class="bg-slate-800 rounded-lg p-3 mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">程式碼</span>
+                            <span class="text-xs text-slate-500">hello.js</span>
+                        </div>
+                        <pre class="text-green-400 text-xs leading-relaxed">console.log('hello 你好')</pre>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mb-2">
+                        <span class="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded">Node.js</span>
+                        <span class="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded">console.log</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex items-center justify-between">
+                    <span class="text-xs text-slate-400"><i class="fa-regular fa-file-code mr-1"></i> hello.js</span>
+                    <a href="https://github.com/znn-07/_wp/tree/master/homework/03" target="_blank" class="text-teal-600 hover:text-teal-700 font-semibold text-sm inline-flex items-center">
+                        原始碼 <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ====== HW 04 — JavaScript 習題集 ====== -->
+            <div class="homework-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 flex flex-col" data-tags="JS">
+                <div class="relative h-40 bg-gradient-to-r from-purple-400 to-pink-500 flex items-center justify-center">
+                    <i class="fa-solid fa-cubes text-white text-5xl opacity-30 absolute"></i>
+                    <span class="text-white text-6xl font-black tracking-wider z-10">04</span>
+                </div>
+                <div class="p-6 flex-grow">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-teal-50 text-teal-700 rounded-full">HW 04</span>
+                        <span class="text-xs text-slate-400">JavaScript 核心</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">JavaScript 核心習題（10 題）</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        由淺入深的 10 個 JavaScript 練習題，涵蓋條件判斷、迴圈、陣列、物件、JSON 及購物車實作等核心概念。
+                    </p>
+                    <div class="grid grid-cols-5 gap-1 mb-4">
+                        <div class="bg-purple-50 text-purple-700 text-center text-xs py-1.5 rounded font-medium" title="if/else 判斷">01</div>
+                        <div class="bg-purple-50 text-purple-700 text-center text-xs py-1.5 rounded font-medium" title="for 迴圈">02</div>
+                        <div class="bg-purple-50 text-purple-700 text-center text-xs py-1.5 rounded font-medium" title="while 迴圈">03</div>
+                        <div class="bg-purple-50 text-purple-700 text-center text-xs py-1.5 rounded font-medium" title="陣列加總">04</div>
+                        <div class="bg-purple-50 text-purple-700 text-center text-xs py-1.5 rounded font-medium" title="物件讀取">05</div>
+                        <div class="bg-purple-50 text-purple-700 text-center text-xs py-1.5 rounded font-medium" title="找最大值">06</div>
+                        <div class="bg-purple-50 text-purple-700 text-center text-xs py-1.5 rounded font-medium" title="JSON 轉換">07</div>
+                        <div class="bg-purple-50 text-purple-700 text-center text-xs py-1.5 rounded font-medium" title="Array.filter">08</div>
+                        <div class="bg-purple-50 text-purple-700 text-center text-xs py-1.5 rounded font-medium" title="物件陣列">09</div>
+                        <div class="bg-purple-50 text-purple-700 text-center text-xs py-1.5 rounded font-medium" title="購物車計算">10</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-lg p-3 mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">作品預覽</span>
+                            <a href="https://github.com/znn-07/_wp/tree/master/homework/04" target="_blank" class="text-teal-600 hover:text-teal-700 text-xs font-medium">
+                                <i class="fa-solid fa-external-link-alt mr-1"></i>瀏覽全部
+                            </a>
+                        </div>
+                        <div class="code-block text-gray-300 text-xs leading-relaxed max-h-24 overflow-y-auto">// 01-score.js — if/else 判斷
+function checkNumber(num) {
+  if (num &gt; 0) return "正數";
+  else if (num &lt; 0) return "負數";
+  else return "零";
+}
+
+// 10-score.js — 購物車計算
+function calculateTotal(items) {
+  let total = 0;
+  items.forEach(product =&gt; {
+    total += product.price * product.quantity;
+  });
+  return total;
+}</div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mb-2">
+                        <span class="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded">if/else</span>
+                        <span class="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded">迴圈</span>
+                        <span class="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded">陣列</span>
+                        <span class="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded">物件</span>
+                        <span class="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded">JSON</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex items-center justify-between">
+                    <span class="text-xs text-slate-400"><i class="fa-regular fa-file-code mr-1"></i> 10 個 JS 檔案</span>
+                    <a href="https://github.com/znn-07/_wp/tree/master/homework/04" target="_blank" class="text-teal-600 hover:text-teal-700 font-semibold text-sm inline-flex items-center">
+                        原始碼 <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ====== HW 06 — JavaScript 進階習題 ====== -->
+            <div class="homework-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 flex flex-col" data-tags="JS">
+                <div class="relative h-40 bg-gradient-to-r from-rose-400 to-red-500 flex items-center justify-center">
+                    <i class="fa-solid fa-sitemap text-white text-5xl opacity-30 absolute"></i>
+                    <span class="text-white text-6xl font-black tracking-wider z-10">06</span>
+                </div>
+                <div class="p-6 flex-grow">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-teal-50 text-teal-700 rounded-full">HW 06</span>
+                        <span class="text-xs text-slate-400">JS 進階概念</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">JavaScript 進階函式習題（10 題）</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        聚焦高階函式、閉包（closure）、IIFE、回呼函式（callback）與陣列方法等進階 JavaScript 概念。
+                    </p>
+                    <ul class="text-xs text-slate-500 space-y-1 mb-4">
+                        <li><i class="fa-solid fa-chevron-right text-rose-400 mr-1.5"></i><span class="font-medium">高階函式</span> — 將函式作為參數傳遞</li>
+                        <li><i class="fa-solid fa-chevron-right text-rose-400 mr-1.5"></i><span class="font-medium">閉包</span> — multiplier(factor) 回傳函式</li>
+                        <li><i class="fa-solid fa-chevron-right text-rose-400 mr-1.5"></i><span class="font-medium">自訂 filter</span> — 手動實作 Array.filter</li>
+                        <li><i class="fa-solid fa-chevron-right text-rose-400 mr-1.5"></i><span class="font-medium">非同步</span> — setTimeout 入門</li>
+                        <li><i class="fa-solid fa-chevron-right text-rose-400 mr-1.5"></i><span class="font-medium">reduce + 折扣</span> — 購物車實戰應用</li>
+                    </ul>
+                    <div class="bg-slate-50 rounded-lg p-3 mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">作品預覽</span>
+                            <a href="https://github.com/znn-07/_wp/tree/master/homework/06" target="_blank" class="text-teal-600 hover:text-teal-700 text-xs font-medium">
+                                <i class="fa-solid fa-external-link-alt mr-1"></i>瀏覽全部
+                            </a>
+                        </div>
+                        <div class="code-block text-gray-300 text-xs leading-relaxed max-h-24 overflow-y-auto">// 01.js — 高階函式
+function mathTool(num1, num2, action) {
+  return action(num1, num2);
+}
+mathTool(10, 5, (a, b) =&gt; a + b); // 15
+
+// 05.js — 閉包
+function multiplier(factor) {
+  return (n) =&gt; n * factor;
+}
+const double = multiplier(2);
+double(10); // 20
+
+// 06.js — 自訂 filter
+function myFilter(arr, callback) { ... }</div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mb-2">
+                        <span class="text-xs bg-rose-50 text-rose-700 px-2 py-1 rounded">高階函式</span>
+                        <span class="text-xs bg-rose-50 text-rose-700 px-2 py-1 rounded">閉包</span>
+                        <span class="text-xs bg-rose-50 text-rose-700 px-2 py-1 rounded">IIFE</span>
+                        <span class="text-xs bg-rose-50 text-rose-700 px-2 py-1 rounded">回呼</span>
+                        <span class="text-xs bg-rose-50 text-rose-700 px-2 py-1 rounded">setTimeout</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex items-center justify-between">
+                    <span class="text-xs text-slate-400"><i class="fa-regular fa-file-code mr-1"></i> 10 個 JS 檔案</span>
+                    <a href="https://github.com/znn-07/_wp/tree/master/homework/06" target="_blank" class="text-teal-600 hover:text-teal-700 font-semibold text-sm inline-flex items-center">
+                        原始碼 <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ====== HW 07 — JavaScript 實踐習題 ====== -->
+            <div class="homework-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 flex flex-col" data-tags="JS">
+                <div class="relative h-40 bg-gradient-to-r from-violet-400 to-purple-600 flex items-center justify-center">
+                    <i class="fa-solid fa-server text-white text-5xl opacity-30 absolute"></i>
+                    <span class="text-white text-6xl font-black tracking-wider z-10">07</span>
+                </div>
+                <div class="p-6 flex-grow">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-teal-50 text-teal-700 rounded-full">HW 07</span>
+                        <span class="text-xs text-slate-400">JS 後端應用</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">JavaScript 後端實踐習題（10 題）</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        模擬 Node.js 後端開發場景，涵蓋物件解構、Error-first callback、JSON 解析、SQL 查詢模擬與模板渲染等實務模式。
+                    </p>
+                    <ul class="text-xs text-slate-500 space-y-1 mb-4">
+                        <li><i class="fa-solid fa-chevron-right text-violet-400 mr-1.5"></i><span class="font-medium">物件操作</span> — 點符號 / 解構賦值 / 動態屬性</li>
+                        <li><i class="fa-solid fa-chevron-right text-violet-400 mr-1.5"></i><span class="font-medium">Error-first callback</span> — Node.js 非同步標準模式</li>
+                        <li><i class="fa-solid fa-chevron-right text-violet-400 mr-1.5"></i><span class="font-medium">SQL 模擬</span> — 參數化查詢 + callback</li>
+                        <li><i class="fa-solid fa-chevron-right text-violet-400 mr-1.5"></i><span class="font-medium">模板渲染</span> — 模板字串 + 三元運算子</li>
+                        <li><i class="fa-solid fa-chevron-right text-violet-400 mr-1.5"></i><span class="font-medium">權限控制</span> — 角色檢查的錯誤處理模式</li>
+                    </ul>
+                    <div class="bg-slate-50 rounded-lg p-3 mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">作品預覽</span>
+                            <a href="https://github.com/znn-07/_wp/tree/master/homework/07" target="_blank" class="text-teal-600 hover:text-teal-700 text-xs font-medium">
+                                <i class="fa-solid fa-external-link-alt mr-1"></i>瀏覽全部
+                            </a>
+                        </div>
+                        <div class="code-block text-gray-300 text-xs leading-relaxed max-h-24 overflow-y-auto">// 02.js — 物件解構
+const { title, content } = req.body;
+
+// 05.js — Error-first callback
+function fetchData(id, callback) {
+  const data = { id, status: "success" };
+  callback(null, data);
+}
+
+// 10.js — 權限錯誤處理
+if (role !== "admin")
+  callback(new Error("權限不足"));</div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mb-2">
+                        <span class="text-xs bg-violet-50 text-violet-700 px-2 py-1 rounded">解構</span>
+                        <span class="text-xs bg-violet-50 text-violet-700 px-2 py-1 rounded">Error-first</span>
+                        <span class="text-xs bg-violet-50 text-violet-700 px-2 py-1 rounded">JSON</span>
+                        <span class="text-xs bg-violet-50 text-violet-700 px-2 py-1 rounded">模板字串</span>
+                        <span class="text-xs bg-violet-50 text-violet-700 px-2 py-1 rounded">模擬 SQL</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex items-center justify-between">
+                    <span class="text-xs text-slate-400"><i class="fa-regular fa-file-code mr-1"></i> 10 個 JS 檔案</span>
+                    <a href="https://github.com/znn-07/_wp/tree/master/homework/07" target="_blank" class="text-teal-600 hover:text-teal-700 font-semibold text-sm inline-flex items-center">
+                        原始碼 <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ====== HW 05 — 網頁設計（部落格系統） ====== -->
+            <div class="homework-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 flex flex-col" data-tags="Fullstack">
+                <div class="relative h-40 bg-gradient-to-r from-cyan-400 to-blue-600 flex items-center justify-center">
+                    <i class="fa-solid fa-blog text-white text-5xl opacity-30 absolute"></i>
+                    <span class="text-white text-5xl font-black tracking-wider z-10 text-center leading-tight px-2">網頁<br>設計</span>
+                </div>
+                <div class="p-6 flex-grow">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-teal-50 text-teal-700 rounded-full">期中專題</span>
+                        <span class="text-xs text-slate-400">全端應用</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">網頁設計專題 — 部落格系統（4 版本）</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        從簡易 CRUD 到完整 Threads 風格社群部落格的迭代開發，共 4 個版本逐步進化，涵蓋使用者認證、留言系統、按讚分享等功能。
+                    </p>
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-xs">
+                            <span class="w-20 bg-slate-100 text-slate-600 px-2 py-1 rounded-l font-medium">v1 簡易版</span>
+                            <span class="flex-1 bg-slate-50 text-slate-500 px-2 py-1 rounded-r">無認證 CRUD</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="w-20 bg-slate-100 text-slate-600 px-2 py-1 rounded-l font-medium">v2 使用者版</span>
+                            <span class="flex-1 bg-slate-50 text-slate-500 px-2 py-1 rounded-r">註冊/登入 + bcrypt + session</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="w-20 bg-slate-100 text-slate-600 px-2 py-1 rounded-l font-medium">v3 Threads 版</span>
+                            <span class="flex-1 bg-slate-50 text-slate-500 px-2 py-1 rounded-r">暗色主題 + 留言 + 按讚 + 分享</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="w-20 bg-slate-100 text-slate-600 px-2 py-1 rounded-l font-medium">v4 備份版</span>
+                            <span class="flex-1 bg-slate-50 text-slate-500 px-2 py-1 rounded-r">v3 同名備份</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mb-2">
+                        <span class="text-xs bg-cyan-50 text-cyan-700 px-2 py-1 rounded">Node.js</span>
+                        <span class="text-xs bg-cyan-50 text-cyan-700 px-2 py-1 rounded">Express</span>
+                        <span class="text-xs bg-cyan-50 text-cyan-700 px-2 py-1 rounded">SQLite</span>
+                        <span class="text-xs bg-cyan-50 text-cyan-700 px-2 py-1 rounded">EJS</span>
+                        <span class="text-xs bg-cyan-50 text-cyan-700 px-2 py-1 rounded">bcrypt</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex items-center justify-between">
+                    <span class="text-xs text-slate-400"><i class="fa-regular fa-folder mr-1"></i> 4 個子專案</span>
+                    <a href="https://github.com/znn-07/_wp/tree/master/homework/%E7%B6%B2%E9%A0%81%E8%A8%AD%E8%A8%88" target="_blank" class="text-teal-600 hover:text-teal-700 font-semibold text-sm inline-flex items-center">
+                        原始碼 <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ====== Blog — 新聞聚合平台 ====== -->
+            <div class="homework-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 flex flex-col" data-tags="Fullstack">
+                <div class="relative h-40 bg-gradient-to-r from-teal-400 to-emerald-600 flex items-center justify-center">
+                    <i class="fa-solid fa-newspaper text-white text-5xl opacity-30 absolute"></i>
+                    <span class="text-white text-5xl font-black tracking-wider z-10 text-center leading-tight px-2">Blog</span>
+                </div>
+                <div class="p-6 flex-grow">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-teal-50 text-teal-700 rounded-full">期中作業</span>
+                        <span class="text-xs text-slate-400">全端應用</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">EnglishNews — 科技新聞聚合平台</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        基於 Node.js + Express 的新聞搜尋引擎，串接 NewsAPI 擷取全球最新科技新聞，具備關鍵字搜尋與卡片式 UI 展示。
+                    </p>
+                    <ul class="text-xs text-slate-500 space-y-1 mb-4">
+                        <li><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>後端代理 API 請求，解決 CORS 問題並保護 API Key</li>
+                        <li><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>卡片式新聞展示（圖片 + 標題 + 描述 + 日期）</li>
+                        <li><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>支援搜尋關鍵字查詢新聞（Enter / 按鈕）</li>
+                        <li><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>前端 Fetch API 非同步資料請求</li>
+                    </ul>
+                    <div class="bg-slate-800 rounded-lg p-3 mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">API 路由</span>
+                        </div>
+                        <pre class="text-green-400 text-xs leading-relaxed">GET /api/news          ← 科技頭條
+GET /api/news?q=AI     ← 搜尋 AI 相關新聞</pre>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mb-2">
+                        <span class="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded">Node.js</span>
+                        <span class="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded">Express</span>
+                        <span class="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded">Axios</span>
+                        <span class="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded">NewsAPI</span>
+                        <span class="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded">Fetch API</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex items-center justify-between">
+                    <span class="text-xs text-slate-400"><i class="fa-regular fa-file-code mr-1"></i> server.js + public/</span>
+                    <a href="https://github.com/znn-07/_wp/tree/master/homework/Blog" target="_blank" class="text-teal-600 hover:text-teal-700 font-semibold text-sm inline-flex items-center">
+                        原始碼 <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 學習路徑 -->
+    <section class="max-w-6xl mx-auto px-4 pb-16">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+            <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                <i class="fa-solid fa-road text-teal-500 mr-3"></i>
+                學習歷程
+            </h2>
+            <div class="relative">
+                <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-teal-200 hidden sm:block"></div>
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4 relative">
+                        <div class="hidden sm:flex w-8 h-8 bg-teal-500 rounded-full items-center justify-center flex-shrink-0 z-10">
+                            <i class="fa-solid fa-code text-white text-xs"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">階段一：HTML / CSS 基礎</h3>
+                            <p class="text-sm text-slate-500">HW 01-02 — 學習網頁結構、CSS 排版、表單設計與純 CSS 互動效果</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 relative">
+                        <div class="hidden sm:flex w-8 h-8 bg-amber-500 rounded-full items-center justify-center flex-shrink-0 z-10">
+                            <i class="fa-brands fa-js text-white text-xs"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">階段二：JavaScript 程式設計</h3>
+                            <p class="text-sm text-slate-500">HW 03-04-06-07 — 從 Hello World 到高階函式、閉包、Error-first callback</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 relative">
+                        <div class="hidden sm:flex w-8 h-8 bg-cyan-500 rounded-full items-center justify-center flex-shrink-0 z-10">
+                            <i class="fa-solid fa-server text-white text-xs"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">階段三：全端專題實戰</h3>
+                            <p class="text-sm text-slate-500">網頁設計專題 + Blog — 整合 Node.js、Express、SQLite、EJS 與第三方 API</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="footer">
-            <p>📚 所有作業統整於此平台 | 最後更新 : 2026年5月29日</p>
-            <p style="margin-top: 8px; font-size: 0.85em;">🤖 本頁面由 AI 輔助產生（<a href="#" style="color: #7f8c8d;" onclick="alert('請替換為您的對話連結'); return false;">對話紀錄</a>）</p>
-        </div>
-    </div>
+    </section>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm border-t border-slate-800">
+        <p class="mb-1">© 2026 劉甄娜 ｜ 國立金門大學 資訊工程學系 ｜ 學號 111410520</p>
+        <p class="text-slate-500">
+            <i class="fa-brands fa-html5 mr-1"></i>
+            <i class="fa-brands fa-css3-alt mr-1"></i>
+            <i class="fa-brands fa-js mr-1"></i>
+            <i class="fa-brands fa-node-js mr-1"></i>
+            <i class="fa-solid fa-database mr-1"></i>
+            — 從基礎到全端的 Web 開發學習旅程
+        </p>
+    </footer>
 
     <script>
-        const homeworks = [
-            {
-                id: 1,
-                title: "01 - 關於我",
-                category: "html",
-                description: "個人簡介網頁，展示HTML基礎知識",
-                tech: ["HTML5"],
-                files: ["aboutme.html"],
-                path: "./01/aboutme.html",
-                codeFile: "./01/aboutme.html",
-                status: "completed"
-            },
-            {
-                id: 2,
-                title: "02 - HTML基礎",
-                category: "html",
-                description: "HTML標籤和結構學習",
-                tech: ["HTML5"],
-                files: ["html"],
-                path: "./02/html",
-                codeFile: "./02/html",
-                status: "completed"
-            },
-            {
-                id: 3,
-                title: "03 - JavaScript入門",
-                category: "javascript",
-                description: "JavaScript基本語法練習",
-                tech: ["JavaScript"],
-                files: ["hello.js", "README.md"],
-                path: "./03/",
-                codeFile: "./03/hello.js",
-                status: "completed"
-            },
-            {
-                id: 4,
-                title: "04 - JavaScript習題集",
-                category: "javascript",
-                description: "10個評分習題，涵蓋JS基礎到進階",
-                tech: ["JavaScript", "Node.js"],
-                files: ["01-score.js", "02-score.js", ... "10-score.js"],
-                path: "./04/",
-                status: "completed",
-                count: "10+ 習題",
-                hasReadme: true
-            },
-            {
-                id: 5,
-                title: "06 - JavaScript進階",
-                category: "javascript",
-                description: "10個進階JavaScript習題",
-                tech: ["JavaScript"],
-                files: ["01.js", "02.js", ... "10.js"],
-                path: "./06/",
-                status: "completed",
-                count: "10 習題"
-            },
-            {
-                id: 6,
-                title: "07 - JavaScript實踐",
-                category: "javascript",
-                description: "10個實踐應用習題",
-                tech: ["JavaScript"],
-                files: ["01.js", "02.js", ... "10.js"],
-                path: "./07/",
-                status: "completed",
-                count: "10 習題"
-            },
-            {
-                id: 7,
-                title: "05 - 網頁設計 - 專題",
-                category: "fullstack",
-                description: "完整的網頁設計專題實踐",
-                tech: ["HTML5", "CSS3", "JavaScript"],
-                files: ["05-opencode/"],
-                path: "./網頁設計/",
-                status: "completed"
-            },
-            {
-                id: 8,
-                title: "Blog - 新聞聚合平台",
-                category: "fullstack",
-                description: "基於Node.js的英文新聞聚合平台，串接NewsAPI",
-                tech: ["Node.js", "Express.js", "Axios", "HTML5", "CSS3"],
-                files: ["server.js", "package.json", "public/"],
-                path: "./Blog/",
-                status: "completed",
-                link: "Node.js 伺服器應用",
-                hasReadme: true
-            }
-        ];
-
-        let filteredHomeworks = [...homeworks];
-
-        const grid = document.getElementById('grid');
-        const searchInput = document.getElementById('searchInput');
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const emptyState = document.getElementById('emptyState');
-
-        function renderCards(data) {
-            grid.innerHTML = '';
-            
-            if (data.length === 0) {
-                grid.style.display = 'none';
-                emptyState.style.display = 'block';
-                return;
-            }
-            
-            grid.style.display = 'grid';
-            emptyState.style.display = 'none';
-
-            data.forEach(hw => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                
-                const statusClass = `status-${hw.status}`;
-                const statusText = {
-                    'completed': '✅ 已完成',
-                    'in-progress': '⏳ 進行中',
-                    'pending': '⏱️ 待完成'
-                }[hw.status];
-
-                const filesHtml = hw.files.length > 3 
-                    ? hw.files.slice(0, 3).join(', ') + `, ...等 ${hw.files.length} 項`
-                    : hw.files.join(', ');
-
-                card.innerHTML = `
-                    <div class="card-header">
-                        <div>
-                            <div class="card-title">${hw.title}</div>
-                            <span class="card-tag">${hw.category}</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-description">${hw.description}</p>
-                        <div class="card-files">
-                            <label>📁 檔案</label>
-                            <div class="file-list">
-                                <div class="file-item">${filesHtml}</div>
-                            </div>
-                        </div>
-                        <div>
-                            <strong>⚙️ 技術棧</strong><br>
-                            ${hw.tech.map(t => `<span class="card-tag">${t}</span>`).join('')}
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        ${hw.codeFile
-                            ? `<button class="btn btn-primary code-btn" data-file="${hw.codeFile}" data-title="${hw.title}">📂 檢視程式碼</button>`
-                            : `<a href="${hw.path}" class="btn btn-primary">📂 檢視程式碼</a>`
-                        }
-                        ${hw.hasReadme ? `<button class="btn btn-secondary readme-btn" data-path="${hw.path}">📖 README</button>` : ''}
-                    </div>
-                `;
-                grid.appendChild(card);
+        function filterTasks(tag) {
+            const buttons = document.querySelectorAll('#tag-filters button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active', 'bg-teal-500', 'text-slate-950', 'font-semibold');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
             });
-        }
+            const activeBtn = event.currentTarget;
+            activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+            activeBtn.classList.add('active', 'bg-teal-500', 'text-slate-950', 'font-semibold');
 
-        // 搜尋功能
-        searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            filteredHomeworks = homeworks.filter(hw => 
-                hw.title.toLowerCase().includes(query) ||
-                hw.description.toLowerCase().includes(query) ||
-                hw.tech.some(t => t.toLowerCase().includes(query)) ||
-                hw.category.toLowerCase().includes(query)
-            );
-            renderCards(filteredHomeworks);
-        });
-
-        // 分類過濾功能
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                const filter = btn.dataset.filter;
-                if (filter === 'all') {
-                    filteredHomeworks = [...homeworks];
+            const cards = document.querySelectorAll('.homework-card');
+            cards.forEach(card => {
+                if (tag === 'all') {
+                    card.style.display = 'flex';
                 } else {
-                    filteredHomeworks = homeworks.filter(hw => hw.category === filter);
+                    const cardTags = card.getAttribute('data-tags').split(' ');
+                    card.style.display = cardTags.includes(tag) ? 'flex' : 'none';
                 }
-                renderCards(filteredHomeworks);
             });
-        });
-
-        // README 功能
-        document.addEventListener('click', (e) => {
-            const btn = e.target.closest('.readme-btn');
-            if (btn) openReadme(btn.dataset.path);
-        });
-
-        function openReadme(path) {
-            const overlay = document.getElementById('modalOverlay');
-            const title = document.getElementById('modalTitle');
-            const body = document.getElementById('modalBody');
-            title.textContent = '📖 載入中...';
-            body.innerHTML = '<p style="text-align:center;color:#95a5a6;">讀取 README 中...</p>';
-            overlay.classList.add('active');
-
-            fetch(`${path}README.md`)
-                .then(res => {
-                    if (!res.ok) throw new Error('無 README');
-                    return res.text();
-                })
-                .then(text => {
-                    title.textContent = '📖 README';
-                    body.innerHTML = renderMarkdown(text);
-                })
-                .catch(() => {
-                    title.textContent = '📖 README';
-                    body.innerHTML = '<p style="text-align:center;color:#95a5a6;">此作業沒有 README</p>';
-                });
         }
-
-        function closeReadme() {
-            document.getElementById('modalOverlay').classList.remove('active');
-        }
-
-        document.getElementById('modalOverlay').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) closeReadme();
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeReadme();
-        });
-
-        function renderMarkdown(text) {
-            return text
-                .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-                .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-                .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-                .replace(/^\- (.+)$/gm, '<li>$1</li>')
-                .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
-                .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                .replace(/\n\n/g, '</p><p>')
-                .replace(/\n/g, '<br>');
-        }
-
-        // 程式碼檢視器
-        document.addEventListener('click', (e) => {
-            const btn = e.target.closest('.code-btn');
-            if (btn) openCodeViewer(btn.dataset.file, btn.dataset.title);
-        });
-
-        function highlightCode(code, lang) {
-            const escape = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-            let html = escape(code);
-
-            if (lang === 'html') {
-                html = html
-                    .replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span style="color:#6a9955">$1</span>')
-                    .replace(/(&lt;\/?)([\w-]+)/g, '$1<span style="color:#569cd6">$2</span>')
-                    .replace(/(\b(class|id|src|href|style|rel|type|name|action|method|target|alt|width|height)\s*=\s*)(&quot;|&#39;|&quot;)/gi, (m, attr, q) => {
-                        return attr.replace(/=/, '=<span style="color:#9cdcfe">') + q;
-                    })
-                    .replace(/(&quot;[^&]*&quot;|&#39;[^&#]*&#39;)/g, '<span style="color:#ce9178">$1</span>');
-            } else if (lang === 'js') {
-                const keywords = /\b(async|await|break|case|catch|const|continue|default|delete|do|else|export|extends|false|finally|for|function|if|import|in|instanceof|let|new|null|of|return|static|switch|this|throw|true|try|typeof|var|void|while|with|yield)\b/g;
-                html = html
-                    .replace(/(\/\/.*)/g, '<span style="color:#6a9955">$1</span>')
-                    .replace(/(\/\*[\s\S]*?\*\/)/g, '<span style="color:#6a9955">$1</span>')
-                    .replace(keywords, '<span style="color:#569cd6">$1</span>')
-                    .replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)/g, '<span style="color:#ce9178">$1</span>')
-                    .replace(/\b(\d+\.?\d*)\b/g, '<span style="color:#b5cea8">$1</span>')
-                    .replace(/(\/\/.*)/g, (m) => m);
-            }
-
-            return html;
-        }
-
-        function openCodeViewer(file, title) {
-            const overlay = document.getElementById('codeOverlay');
-            const filename = document.getElementById('codeFilename');
-            const content = document.getElementById('codeContent');
-            const preview = document.getElementById('codePreview');
-            const status = document.getElementById('codeStatus');
-            const previewPanel = document.getElementById('previewPanel');
-
-            filename.textContent = file.split('/').pop();
-            content.innerHTML = '';
-            status.textContent = '';
-            preview.src = '';
-            overlay.classList.add('active');
-
-            const isHtml = file.match(/\.html?$/i) || file.match(/\/html$/i);
-            const isJs = file.match(/\.js$/i);
-
-            const divider = document.getElementById('codeDivider');
-            if (!isHtml) {
-                previewPanel.style.display = 'none';
-                divider.style.display = 'none';
-            } else {
-                previewPanel.style.display = 'flex';
-                divider.style.display = '';
-                preview.src = file;
-                status.textContent = '✓ 預覽就緒';
-            }
-
-            fetch(file)
-                .then(res => {
-                    if (!res.ok) throw new Error('無法讀取檔案');
-                    return res.text();
-                })
-                .then(text => {
-                    const lang = isHtml ? 'html' : isJs ? 'js' : '';
-                    content.innerHTML = highlightCode(text, lang);
-                })
-                .catch(() => {
-                    content.innerHTML = '<span style="color:#f44747">// 無法讀取檔案內容</span>';
-                });
-        }
-
-        function closeCodeViewer() {
-            document.getElementById('codeOverlay').classList.remove('active');
-            document.getElementById('codePreview').src = '';
-            document.getElementById('codePanelLeft').style.width = '';
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeCodeViewer();
-        });
-
-        // 分割線拖曳
-        (function() {
-            const divider = document.getElementById('codeDivider');
-            const left = document.getElementById('codePanelLeft');
-            const overlay = document.getElementById('codeOverlay');
-            if (!divider) return;
-
-            let dragging = false;
-
-            function startDrag() {
-                dragging = true;
-                divider.classList.add('dragging');
-                overlay.style.cursor = 'col-resize';
-            }
-
-            function moveDrag(clientX) {
-                if (!dragging) return;
-                const panels = divider.parentElement;
-                const rect = panels.getBoundingClientRect();
-                let pct = ((clientX - rect.left) / rect.width) * 100;
-                pct = Math.max(20, Math.min(80, pct));
-                left.style.width = pct + '%';
-            }
-
-            function endDrag() {
-                if (dragging) {
-                    dragging = false;
-                    divider.classList.remove('dragging');
-                    overlay.style.cursor = '';
-                }
-            }
-
-            divider.addEventListener('mousedown', startDrag);
-            document.addEventListener('mousemove', e => moveDrag(e.clientX));
-            document.addEventListener('mouseup', endDrag);
-
-            divider.addEventListener('touchstart', e => { startDrag(); e.preventDefault(); });
-            document.addEventListener('touchmove', e => moveDrag(e.touches[0].clientX), { passive: true });
-            document.addEventListener('touchend', endDrag);
-        })();
-
-        // 初始化
-        renderCards(homeworks);
     </script>
 </body>
 </html>
